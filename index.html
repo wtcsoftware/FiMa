@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FiMa — Your whole financial life, in one private app</title>
+<meta name="description" content="FiMa is a free, offline personal finance tracker for Windows. Track your net worth, accounts, transactions, budgets, investments, debts, assets and savings — all stored privately on your own device.">
+
+<!-- Social preview -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="FiMa — Personal Finance Tracker">
+<meta property="og:description" content="Track your net worth, budgets, investments and debts in one private, offline Windows app. Your data never leaves your device.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Favicon: gradient "F" mark drawn inline so no extra files ship to the Pages site -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237B6EF6'/%3E%3Cstop offset='1' stop-color='%234ECDC4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='26' fill='url(%23g)'/%3E%3Ctext x='50' y='70' font-family='Arial,sans-serif' font-size='62' font-weight='800' fill='white' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+
+<style>
+/* ============================================================
+   FiMa landing page — palette + type lifted from the app itself
+   (frontend/css/app.css). Self-contained, no build step.
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#F5F5F7; --surface:#FFFFFF; --surface2:#EFEFF4; --surface3:#E4E4ED;
+  --border:#D5D5E0; --text:#1A1A2E; --muted:#6B6B80;
+  --accent:#7B6EF6; --accent2:#4ECDC4;
+  --green:#2DBF6A; --red:#FF3B50; --yellow:#E6A817;
+  --hero-glow:.10;
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0A0A0C; --surface:#111116; --surface2:#18181F; --surface3:#22222C;
+  --border:#2A2A38; --text:#E8E8F0; --muted:#8B8BA0;
+  --accent:#7B6EF6; --accent2:#4ECDC4;
+  --green:#3DDB7C; --red:#FF5C72; --yellow:#FFD166;
+  --hero-glow:.22;
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:'Syne',sans-serif; font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+.gradient-text{
+  background:linear-gradient(120deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:13px 24px;border-radius:11px;border:1px solid transparent;
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn svg{width:19px;height:19px}
+.btn-primary{
+  background:linear-gradient(120deg,var(--accent),var(--accent2));
+  color:#fff;box-shadow:0 10px 30px -10px var(--accent);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px -12px var(--accent)}
+.btn-ghost{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--surface2);transform:translateY(-2px)}
+
+/* ---------- nav ---------- */
+header.nav{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb,var(--bg) 80%,transparent);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:19px;letter-spacing:-.5px}
+.logo-mark{
+  width:34px;height:34px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:800;font-size:17px;
+}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-links a.lnk{padding:8px 14px;border-radius:9px;color:var(--muted);font-weight:600;font-size:14.5px;transition:.15s}
+.nav-links a.lnk:hover{color:var(--text);background:var(--surface2)}
+.icon-btn{
+  width:38px;height:38px;border-radius:9px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:.15s;
+}
+.icon-btn:hover{background:var(--surface2)}
+.icon-btn svg{width:18px;height:18px}
+@media(max-width:720px){.nav-links a.lnk{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:90px 0 70px;overflow:hidden}
+.hero::before,.hero::after{
+  content:"";position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(90px);
+}
+.hero::before{top:-140px;right:-80px;width:460px;height:460px;background:var(--accent);opacity:var(--hero-glow)}
+.hero::after{bottom:-180px;left:-60px;width:420px;height:420px;background:var(--accent2);opacity:var(--hero-glow)}
+.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr;gap:42px}}
+
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px;border-radius:999px;border:1px solid var(--border);
+  background:var(--surface);font-size:13px;font-weight:600;color:var(--muted);margin-bottom:22px;
+}
+.badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+.hero h1{font-size:clamp(38px,5.2vw,58px);line-height:1.04;font-weight:800;letter-spacing:-1.6px;margin-bottom:20px}
+.hero p.lead{font-size:18px;color:var(--muted);max-width:520px;margin-bottom:30px}
+.cta-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.cta-note{margin-top:16px;font-size:13.5px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.cta-note svg{width:16px;height:16px;color:var(--green);flex-shrink:0}
+
+/* ---------- app mockup ---------- */
+.mock{
+  position:relative;border-radius:18px;overflow:hidden;
+  background:var(--surface);border:1px solid var(--border);
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.45);
+}
+.mock-bar{display:flex;align-items:center;gap:7px;padding:13px 16px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.mock-bar i{width:11px;height:11px;border-radius:50%;display:block}
+.mock-bar i:nth-child(1){background:#FF5F57}.mock-bar i:nth-child(2){background:#FEBC2E}.mock-bar i:nth-child(3){background:#28C840}
+.mock-bar span{margin-left:8px;font-size:12px;color:var(--muted);font-weight:600}
+.mock-body{display:grid;grid-template-columns:150px 1fr;min-height:330px}
+.mock-side{border-right:1px solid var(--border);padding:14px 10px;background:var(--surface)}
+.mock-side .grp{font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase;padding:12px 8px 5px}
+.mock-side .it{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:8px;font-size:12.5px;color:var(--muted);font-weight:600}
+.mock-side .it .d{width:6px;height:6px;border-radius:50%;background:var(--surface3)}
+.mock-side .it.on{background:var(--surface3);color:var(--text)}
+.mock-side .it.on .d{background:var(--accent)}
+.mock-main{padding:16px}
+.net{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:14px;padding:18px 18px 16px;background:var(--surface)}
+.net .glow{position:absolute;border-radius:50%;filter:blur(36px);pointer-events:none}
+.net .glow.a{top:-40px;right:-40px;width:150px;height:150px;background:var(--accent);opacity:.18}
+.net .glow.b{bottom:-40px;left:25%;width:120px;height:120px;background:var(--accent2);opacity:.14}
+.net .lab{font-size:9px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.net .val{font-size:30px;font-weight:800;letter-spacing:-1.2px;line-height:1;margin-bottom:16px}
+.net .split{display:flex;gap:16px;position:relative}
+.net .split .col .l{font-size:8.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.net .split .col .v{font-size:12.5px;font-weight:700}
+.c-acc{color:var(--accent2)}.c-inv{color:var(--green)}.c-deb{color:var(--red)}.c-ast{color:var(--accent)}
+.net .vd{width:1px;background:var(--border)}
+.brk{margin-top:14px;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.brk-h{padding:11px 15px;border-bottom:1px solid var(--border);font-size:11.5px;font-weight:700}
+.brk-row{display:flex;align-items:center;gap:11px;padding:10px 15px;border-bottom:1px solid var(--border)}
+.brk-row:last-child{border-bottom:none}
+.brk-row .ic{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.brk-row .nm{font-size:12.5px;font-weight:600;flex:1}
+.brk-row .am{font-size:12.5px;font-weight:700;color:var(--muted)}
+
+/* ---------- generic section ---------- */
+section{padding:78px 0;position:relative}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;text-align:center}
+.sec-title{font-size:clamp(28px,3.4vw,40px);font-weight:800;letter-spacing:-1px;text-align:center;margin-bottom:14px}
+.sec-sub{text-align:center;color:var(--muted);font-size:17px;max-width:600px;margin:0 auto 50px}
+
+/* ---------- feature grid ---------- */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:860px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--accent) 45%,var(--border));box-shadow:0 20px 40px -24px var(--accent)}
+.card .ci{
+  width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+  background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);
+}
+.card .ci svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:17px;font-weight:700;margin-bottom:7px;letter-spacing:-.3px}
+.card p{font-size:14.5px;color:var(--muted);line-height:1.55}
+
+/* ---------- privacy / why ---------- */
+.why{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 40px;max-width:880px;margin:0 auto}
+@media(max-width:680px){.why-grid{grid-template-columns:1fr}}
+.why-item{display:flex;gap:15px;align-items:flex-start}
+.why-item .tick{
+  width:30px;height:30px;border-radius:9px;flex-shrink:0;
+  background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--green);
+  display:flex;align-items:center;justify-content:center;
+}
+.why-item .tick svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.why-item h4{font-size:16px;font-weight:700;margin-bottom:3px}
+.why-item p{font-size:14px;color:var(--muted)}
+
+/* ---------- download ---------- */
+.dl-card{
+  position:relative;overflow:hidden;text-align:center;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 14%,var(--surface)),color-mix(in srgb,var(--accent2) 12%,var(--surface)));
+  border:1px solid var(--border);border-radius:22px;padding:52px 32px;
+}
+.dl-card h2{font-size:clamp(26px,3.2vw,38px);font-weight:800;letter-spacing:-1px;margin-bottom:12px}
+.dl-card p.sub{color:var(--muted);font-size:16.5px;margin-bottom:30px;max-width:520px;margin-left:auto;margin-right:auto}
+.specs{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;margin-top:30px;font-size:13.5px;color:var(--muted);font-weight:600}
+.specs span{display:inline-flex;align-items:center;gap:7px}
+.specs svg{width:16px;height:16px;color:var(--accent)}
+.note{
+  margin:34px auto 0;max-width:620px;text-align:left;
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;
+  font-size:13.5px;color:var(--muted);line-height:1.6;display:flex;gap:12px;
+}
+.note svg{width:20px;height:20px;color:var(--yellow);flex-shrink:0;margin-top:2px}
+.note b{color:var(--text)}
+
+/* ---------- footer ---------- */
+footer{padding:46px 0;border-top:1px solid var(--border);background:var(--bg)}
+.foot-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.foot-inner .muted{color:var(--muted);font-size:13.5px}
+.foot-links{display:flex;gap:18px}
+.foot-links a{color:var(--muted);font-size:13.5px;font-weight:600;transition:.15s}
+.foot-links a:hover{color:var(--text)}
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     DOWNLOAD LINK — kept in one place for easy maintenance.
+     "releases/latest/download/<file>" always serves the newest
+     release that carries an asset with this exact filename.
+     The installer is built as FiMa-Setup-<version>.exe
+     (see package.json > build.win.artifactName). When you publish
+     a new version, either keep this filename in sync OR just point
+     users at the releases page (the "All releases" link below).
+     ============================================================ -->
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top"><span class="logo-mark">F</span><span class="gradient-text">FiMa</span></a>
+    <nav class="nav-links">
+      <a class="lnk" href="#features">Features</a>
+      <a class="lnk" href="#privacy">Privacy</a>
+      <a class="lnk" href="#download">Download</a>
+      <a class="icon-btn" href="https://github.com/wtcsoftware/FiMa/releases" title="Releases on GitHub" aria-label="GitHub releases">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+      </a>
+      <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle light or dark theme">
+        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <span class="badge"><span class="dot"></span>Free · Offline · Windows desktop app</span>
+      <h1>Your whole financial life,<br><span class="gradient-text">in one private app.</span></h1>
+      <p class="lead">FiMa tracks your net worth, accounts, budgets, investments, debts and assets — beautifully and completely offline. Your money data stays on your device. Always.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/wtcsoftware/FiMa/releases/latest/download/FiMa-Setup-1.0.0.exe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download for Windows
+        </a>
+        <a class="btn btn-ghost" href="#features">Explore features</a>
+      </div>
+      <div class="cta-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        No account. No cloud. No subscription. Version 1.0.0 · ~100&nbsp;MB installer.
+      </div>
+    </div>
+
+    <!-- Faithful mock of the real dashboard -->
+    <div class="mock" aria-hidden="true">
+      <div class="mock-bar"><i></i><i></i><i></i><span>FiMa — Dashboard</span></div>
+      <div class="mock-body">
+        <div class="mock-side">
+          <div class="grp">Overview</div>
+          <div class="it on"><span class="d"></span>Dashboard</div>
+          <div class="grp">Money in / out</div>
+          <div class="it"><span class="d"></span>Accounts</div>
+          <div class="it"><span class="d"></span>Transactions</div>
+          <div class="it"><span class="d"></span>Budgets</div>
+          <div class="grp">Planning</div>
+          <div class="it"><span class="d"></span>Investments</div>
+          <div class="it"><span class="d"></span>Debts</div>
+          <div class="it"><span class="d"></span>Assets</div>
+        </div>
+        <div class="mock-main">
+          <div class="net">
+            <span class="glow a"></span><span class="glow b"></span>
+            <div class="lab">Net worth</div>
+            <div class="val">R 482,650<span style="font-size:18px;color:var(--muted)">.00</span></div>
+            <div class="split">
+              <div class="col"><div class="l">Accounts</div><div class="v c-acc">R 86,400</div></div>
+              <div class="vd"></div>
+              <div class="col"><div class="l">Investments</div><div class="v c-inv">R 312,900</div></div>
+              <div class="vd"></div>
+              <div class="col"><div class="l">Debts</div><div class="v c-deb">R 34,650</div></div>
+              <div class="vd"></div>
+              <div class="col"><div class="l">Assets</div><div class="v c-ast">R 118,000</div></div>
+            </div>
+          </div>
+          <div class="brk">
+            <div class="brk-h">Category breakdown</div>
+            <div class="brk-row"><span class="ic" style="background:color-mix(in srgb,var(--accent2) 16%,transparent);color:var(--accent2)">◆</span><span class="nm">Cash &amp; savings</span><span class="am">R 86,400</span></div>
+            <div class="brk-row"><span class="ic" style="background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--green)">▲</span><span class="nm">Retirement fund</span><span class="am">R 312,900</span></div>
+            <div class="brk-row"><span class="ic" style="background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)">●</span><span class="nm">Property &amp; vehicles</span><span class="am">R 118,000</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FEATURES ===================== -->
+<section id="features">
+  <div class="wrap">
+    <div class="eyebrow">Everything in one place</div>
+    <h2 class="sec-title">One app for every part of your money</h2>
+    <p class="sec-sub">FiMa brings your accounts, spending, savings and long-term plans together — so you always know exactly where you stand.</p>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4z"/><path d="M13 4h7v4h-7z"/><path d="M13 12h7v8h-7z"/><path d="M4 15h7v5H4z"/></svg></div>
+        <h3>Net-worth dashboard</h3>
+        <p>A single number that says it all — accounts plus investments and assets, minus your debts — with a live category breakdown beneath it.</p>
+      </div>
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M16 12h5v4h-5a2 2 0 0 1 0-4z"/></svg></div>
+        <h3>Accounts</h3>
+        <p>Track every bank account, wallet and cash stash in one list, organised by the categories that make sense to you.</p>
+      </div>
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M7 7h13"/><path d="m17 3 4 4-4 4"/><path d="M17 17H4"/><path d="m7 21-4-4 4-4"/></svg></div>
+        <h3>Transactions</h3>
+        <p>Log money in and out, search and filter your history, and watch every balance update instantly across the app.</p>
+      </div>
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M12 3v9l8 4"/><path d="M21 12a9 9 0 1 1-9-9"/></svg></div>
+        <h3>Budgets</h3>
+        <p>Set budgets, see exactly where the money is going with a clear breakdown, and archive the ones you no longer need.</p>
+      </div>
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 7-7"/><path d="M14 8h7v7"/></svg></div>
+        <h3>Investments</h3>
+        <p>Follow your portfolio over time with history and growth graphs, and break holdings down by category and sub-category.</p>
+      </div>
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg></div>
+        <h3>Debts</h3>
+        <p>Keep loans and credit in check with payoff history and a graph that shows your balances trending down over time.</p>
+      </div>
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9"/><path d="M9 20v-6h6v6"/></svg></div>
+        <h3>Assets</h3>
+        <p>Record property, vehicles and valuables so the things you own are counted in your true net worth.</p>
+      </div>
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-8-5"/><path d="M3 12a9 9 0 0 1 9-9 9 9 0 0 1 8 5"/><path d="M21 4v4h-4"/><path d="M3 20v-4h4"/></svg></div>
+        <h3>Asset replacement</h3>
+        <p>Plan ahead for replacing the things that wear out, using inflation assumptions to estimate what they'll cost later.</p>
+      </div>
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2V5z"/><path d="M2 9v1"/><path d="M9 7h4"/></svg></div>
+        <h3>Savings goals</h3>
+        <p>Set things aside for what matters, see your progress at a glance and use return assumptions to project where you'll land.</p>
+      </div>
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+        <h3>Categories</h3>
+        <p>Build your own categories and sub-categories with custom icons and colours, so FiMa mirrors the way you think about money.</p>
+      </div>
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 7 19.4l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.6H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10 4.6V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></div>
+        <h3>Make it yours</h3>
+        <p>Switch between light and dark themes, choose your currency symbol and date format, and set inflation and return rates for projections.</p>
+      </div>
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M21 8v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11l6 4z"/><path d="M7 4v5h8"/><path d="M12 13v5"/><path d="m9.5 15.5 2.5-2.5 2.5 2.5"/></svg></div>
+        <h3>Backups you control</h3>
+        <p>Your data lives in a single local database file. Back it up, move it, or point FiMa at a new one — all from Settings, in a click.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRIVACY / WHY ===================== -->
+<section id="privacy" class="why">
+  <div class="wrap">
+    <div class="eyebrow">Built private by default</div>
+    <h2 class="sec-title">Your money is nobody's business but yours</h2>
+    <p class="sec-sub">FiMa is a desktop app, not a service. There's no sign-up, no server, and nothing to leak.</p>
+
+    <div class="why-grid">
+      <div class="why-item">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <div><h4>100% offline</h4><p>Everything runs on your PC. FiMa never phones home and works perfectly with no internet connection.</p></div>
+      </div>
+      <div class="why-item">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <div><h4>Your data, one file</h4><p>All your finances are stored in a local database on your machine. No cloud accounts, ever.</p></div>
+      </div>
+      <div class="why-item">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <div><h4>Free, no subscription</h4><p>Download it, use it, keep it. There are no tiers, trials, ads or upsells.</p></div>
+      </div>
+      <div class="why-item">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <div><h4>Light &amp; dark themes</h4><p>A clean, modern interface that's easy on the eyes — switch themes whenever you like.</p></div>
+      </div>
+      <div class="why-item">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <div><h4>Your currency &amp; dates</h4><p>Set your own currency symbol and date format so FiMa speaks your language.</p></div>
+      </div>
+      <div class="why-item">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <div><h4>Plan for the future</h4><p>Built-in inflation and expected-return settings power the projections across savings and asset replacement.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DOWNLOAD ===================== -->
+<section id="download">
+  <div class="wrap">
+    <div class="dl-card">
+      <h2>Get FiMa for Windows</h2>
+      <p class="sub">Download the installer, run it, and you're tracking your net worth in under a minute.</p>
+
+      <a class="btn btn-primary" href="https://github.com/wtcsoftware/FiMa/releases/latest/download/FiMa-Setup-1.0.0.exe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+        Download FiMa Setup (.exe)
+      </a>
+
+      <div class="specs">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>Windows 10 &amp; 11</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11l6 4z"/></svg>~100&nbsp;MB · NSIS installer</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Version 1.0.0</span>
+      </div>
+
+      <div class="note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <div><b>Heads up:</b> FiMa isn't code-signed yet, so Windows SmartScreen may warn you the first time. That's expected — click <b>More info → Run anyway</b> to continue. Prefer to choose a version yourself? <a href="https://github.com/wtcsoftware/FiMa/releases" style="color:var(--accent);font-weight:700">Browse all releases →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap foot-inner">
+    <div class="brand" style="font-size:16px"><span class="logo-mark" style="width:28px;height:28px;font-size:14px">F</span><span class="gradient-text">FiMa</span></div>
+    <div class="muted">© 2026 WTC Software · Personal Finance Tracker</div>
+    <div class="foot-links">
+      <a href="#features">Features</a>
+      <a href="#download">Download</a>
+      <a href="https://github.com/wtcsoftware/FiMa/releases">Releases</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Theme toggle with persistence + system-preference default */
+(function(){
+  var root = document.documentElement;
+  var icon = document.getElementById('theme-icon');
+  var sun  = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+  var moon = '<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>';
+  function apply(t){
+    root.setAttribute('data-theme', t);
+    icon.innerHTML = (t === 'dark') ? sun : moon;   // show the action's destination
+  }
+  var saved = null;
+  try { saved = localStorage.getItem('fima-site-theme'); } catch(e){}
+  if(!saved){
+    saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+  }
+  apply(saved);
+  document.getElementById('theme-toggle').addEventListener('click', function(){
+    var next = (root.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
+    apply(next);
+    try { localStorage.setItem('fima-site-theme', next); } catch(e){}
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -144,7 +144,7 @@ header.nav{
 .net .glow.a{top:-40px;right:-40px;width:150px;height:150px;background:var(--accent);opacity:.18}
 .net .glow.b{bottom:-40px;left:25%;width:120px;height:120px;background:var(--accent2);opacity:.14}
 .net .lab{font-size:9px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
-.net .val{font-size:30px;font-weight:800;letter-spacing:-1.2px;line-height:1;margin-bottom:16px}
+.net .val{font-size:24px;font-weight:800;letter-spacing:-1.2px;line-height:1;margin-bottom:16px}
 .net .split{display:flex;gap:16px;position:relative}
 .net .split .col .l{font-size:8.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
 .net .split .col .v{font-size:12.5px;font-weight:700}
@@ -263,7 +263,7 @@ footer{padding:46px 0;border-top:1px solid var(--border);background:var(--bg)}
       <h1>Your whole financial life,<br><span class="gradient-text">in one private app.</span></h1>
       <p class="lead">FiMa tracks your net worth, accounts, budgets, investments, debts and assets — beautifully and completely offline. Your money data stays on your device. Always.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="https://github.com/wtcsoftware/FiMa/releases/latest/download/FiMa-Setup-1.0.2.exe">
+        <a class="btn btn-primary" href="https://github.com/wtcsoftware/FiMa/releases/latest/download/FiMa-Setup-1.0.3.exe">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
           Download for Windows
         </a>
@@ -271,17 +271,18 @@ footer{padding:46px 0;border-top:1px solid var(--border);background:var(--bg)}
       </div>
       <div class="cta-note">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-        No account. No cloud. No subscription. Version 1.0.2 · ~100&nbsp;MB installer.
+        No account. No cloud. No subscription. Version 1.0.3 · ~100&nbsp;MB installer.
       </div>
     </div>
 
-    <!-- Faithful mock of the real dashboard -->
+    <!-- Faithful mock of the balance sheet -->
     <div class="mock" aria-hidden="true">
-      <div class="mock-bar"><i></i><i></i><i></i><span>FiMa — Dashboard</span></div>
+      <div class="mock-bar"><i></i><i></i><i></i><span>FiMa — Balance sheet</span></div>
       <div class="mock-body">
         <div class="mock-side">
           <div class="grp">Overview</div>
-          <div class="it on"><span class="d"></span>Dashboard</div>
+          <div class="it"><span class="d"></span>Dashboard</div>
+          <div class="it on"><span class="d"></span>Balance sheet</div>
           <div class="grp">Money in / out</div>
           <div class="it"><span class="d"></span>Accounts</div>
           <div class="it"><span class="d"></span>Transactions</div>
@@ -290,27 +291,29 @@ footer{padding:46px 0;border-top:1px solid var(--border);background:var(--bg)}
           <div class="it"><span class="d"></span>Investments</div>
           <div class="it"><span class="d"></span>Debts</div>
           <div class="it"><span class="d"></span>Assets</div>
+          <div class="it"><span class="d"></span>Assets replacement</div>
+          <div class="it"><span class="d"></span>Savings</div>
+          <div class="grp">Setup</div>
+          <div class="it"><span class="d"></span>Categories</div>
+          <div class="it"><span class="d"></span>Settings</div>
         </div>
         <div class="mock-main">
           <div class="net">
             <span class="glow a"></span><span class="glow b"></span>
             <div class="lab">Net worth</div>
-            <div class="val">R 482,650<span style="font-size:18px;color:var(--muted)">.00</span></div>
+            <div class="val">R 448,000<span style="font-size:18px;color:var(--muted)">.00</span></div>
+            <div style="display:flex;height:9px;border-radius:999px;overflow:hidden;margin:0 0 14px;background:var(--surface3)"><span style="flex:88;background:var(--green)"></span><span style="flex:12;background:var(--red)"></span></div>
             <div class="split">
-              <div class="col"><div class="l">Accounts</div><div class="v c-acc">R 86,400</div></div>
+              <div class="col"><div class="l">Total assets</div><div class="v c-ast">R 517,300</div></div>
               <div class="vd"></div>
-              <div class="col"><div class="l">Investments</div><div class="v c-inv">R 312,900</div></div>
-              <div class="vd"></div>
-              <div class="col"><div class="l">Debts</div><div class="v c-deb">R 34,650</div></div>
-              <div class="vd"></div>
-              <div class="col"><div class="l">Assets</div><div class="v c-ast">R 118,000</div></div>
+              <div class="col"><div class="l">Total liabilities</div><div class="v c-deb">R 69,300</div></div>
             </div>
           </div>
           <div class="brk">
-            <div class="brk-h">Category breakdown</div>
-            <div class="brk-row"><span class="ic" style="background:color-mix(in srgb,var(--accent2) 16%,transparent);color:var(--accent2)">◆</span><span class="nm">Cash &amp; savings</span><span class="am">R 86,400</span></div>
-            <div class="brk-row"><span class="ic" style="background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--green)">▲</span><span class="nm">Retirement fund</span><span class="am">R 312,900</span></div>
-            <div class="brk-row"><span class="ic" style="background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)">●</span><span class="nm">Property &amp; vehicles</span><span class="am">R 118,000</span></div>
+            <div class="brk-h">Assets</div>
+            <div class="brk-row"><span class="ic" style="background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--green)">▲</span><span class="nm">Income-generating assets</span><span class="am">R 312,900</span></div>
+            <div class="brk-row"><span class="ic" style="background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)">●</span><span class="nm">Personal assets</span><span class="am">R 118,000</span></div>
+            <div class="brk-row"><span class="ic" style="background:color-mix(in srgb,var(--accent2) 16%,transparent);color:var(--accent2)">◆</span><span class="nm">Account money</span><span class="am">R 86,400</span></div>
           </div>
         </div>
       </div>
@@ -329,8 +332,14 @@ footer{padding:46px 0;border-top:1px solid var(--border);background:var(--bg)}
 
       <div class="card">
         <div class="ci"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4z"/><path d="M13 4h7v4h-7z"/><path d="M13 12h7v8h-7z"/><path d="M4 15h7v5H4z"/></svg></div>
-        <h3>Net-worth dashboard</h3>
-        <p>A single number that says it all — accounts plus investments and assets, minus your debts — with a live category breakdown beneath it.</p>
+        <h3>Dashboard</h3>
+        <p>See where you stand at a glance — your accounts, investments, debts and assets up top, with a live category breakdown beneath.</p>
+      </div>
+
+      <div class="card">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M7 20h10"/><path d="m6 6 6-1 6 1"/><path d="M12 3v17"/><path d="m9 12-3-6-3 6a3 3 0 0 0 6 0"/><path d="m21 12-3-6-3 6a3 3 0 0 0 6 0"/></svg></div>
+        <h3>Balance sheet</h3>
+        <p>Your complete net worth on one page — assets and liabilities side by side, each grouped (even good vs. bad debt) and expandable down to the items behind every total.</p>
       </div>
 
       <div class="card">
@@ -346,7 +355,7 @@ footer{padding:46px 0;border-top:1px solid var(--border);background:var(--bg)}
       </div>
 
       <div class="card">
-        <div class="ci"><svg viewBox="0 0 24 24"><path d="M12 3v9l8 4"/><path d="M21 12a9 9 0 1 1-9-9"/></svg></div>
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M12 3v9l9 0"/><path d="M21 12a9 9 0 1 1-9-9"/></svg></div>
         <h3>Budgets</h3>
         <p>Set budgets, see exactly where the money is going with a clear breakdown, and archive the ones you no longer need.</p>
       </div>
@@ -446,7 +455,7 @@ footer{padding:46px 0;border-top:1px solid var(--border);background:var(--bg)}
       <h2>Get FiMa for Windows</h2>
       <p class="sub">Download the installer, run it, and you're tracking your net worth in under a minute.</p>
 
-      <a class="btn btn-primary" href="https://github.com/wtcsoftware/FiMa/releases/latest/download/FiMa-Setup-1.0.2.exe">
+      <a class="btn btn-primary" href="https://github.com/wtcsoftware/FiMa/releases/latest/download/FiMa-Setup-1.0.3.exe">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
         Download FiMa Setup (.exe)
       </a>
@@ -454,7 +463,7 @@ footer{padding:46px 0;border-top:1px solid var(--border);background:var(--bg)}
       <div class="specs">
         <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>Windows 10 &amp; 11</span>
         <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11l6 4z"/></svg>~100&nbsp;MB · NSIS installer</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Version 1.0.2</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Version 1.0.3</span>
       </div>
 
       <div class="note">
